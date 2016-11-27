@@ -65,7 +65,7 @@ def main():
         sys.exit("Trips are not found")
 
     table = prettytable.PrettyTable(hrules=True)
-    table.field_names = ['Date', 'From', 'To', 'Price', 'Seats left', 'Car']
+    table.field_names = ['Date', 'From', 'To', 'Price', 'Seats left', 'Car and Url']
     for r in results:
         address_from = r['departure_place']['address'].replace(",", "\n")
         address_to = r['arrival_place']['address'].replace(",", "\n")
@@ -80,6 +80,8 @@ def main():
             car_model = r['car']['model'].encode('utf-8')
             car_make = r['car']['make'].encode('utf-8')
             car_info = "Model: {}/Make: {}".format(car_model, car_make)
+        car_info = "{}\n{}".format(car_info, r['links']['_front'])
+        
         table.add_row([date, address_from, address_to, price_display, seat_left, car_info])
 
     print table
